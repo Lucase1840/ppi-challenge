@@ -1,5 +1,10 @@
+import LoadingProvider from '@context/loading-context'
 import Routes from '@routes/routes.jsx'
 
 export default function App() {
-  return <Routes />
+  return (
+    <LoadingProvider>
+      <Routes />
+    </LoadingProvider>
+  )
 }

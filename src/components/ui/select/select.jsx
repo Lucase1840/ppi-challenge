@@ -16,7 +16,7 @@ const customStyles = {
     height: '2.5rem',
     fontSize: '1rem',
     fontWeight: '600',
-    boxShadow: state.isFocused ? '0 0 0 3px rgba(26, 143, 255, 0.45)' : '',
+    boxShadow: state.isFocused ? '0 0 0 3px #1a8fff73' : '',
     border: state.isFocused ? '1px solid #1a8dff' : '',
   }),
 }

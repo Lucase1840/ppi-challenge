@@ -1,5 +1,5 @@
 import CurrencyExchangeCard from '@/components/domain/currency-exchange/currency-exchange-card/currency-exchange-card'
-import Footer from '@/components/domain/footer/footer'
+import Footer from '@/components/domain/currency-exchange/footer/footer'
 
 import styles from './currency-exchange-page.module.css'
 
