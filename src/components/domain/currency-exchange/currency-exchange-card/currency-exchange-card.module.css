@@ -1,0 +1,83 @@
+.card-container {
+  background-color: white;
+  height: 100%;
+  width: calc(100vw - 4rem);
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  border-radius: 0.5rem;
+  padding: 1rem 1rem 0.5rem 1rem;
+  gap: 1rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.button {
+  all: unset;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.main-info {
+  font-size: 1.5rem;
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+
+.secondary-info {
+  overflow-wrap: break-word;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #757575;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  label {
+    font-weight: 600;
+  }
+  position: relative;
+}
+
+.input {
+  height: 2.5rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem 0.5rem 2rem;
+  border: 1px solid #b3b3b3;
+  &:focus {
+    outline: none;
+    border: 1px solid #1a8dff;
+    box-shadow: 0 0 0 3px rgba(26, 143, 255, 0.45);
+  }
+}
+
+.currency-symbol {
+  font-size: 1rem;
+  font-weight: 600;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  label {
+    font-weight: 600;
+  }
+}

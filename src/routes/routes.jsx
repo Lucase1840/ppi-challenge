@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import MainLayout from '@/components/layout/main-layout'
+import CurrencyExchangePage from '@/pages/currency-exchange/currency-exchange-page'
 
 function Routes() {
   const router = createBrowserRouter([
@@ -11,7 +12,7 @@ function Routes() {
       children: [
         {
           path: '',
-          element: <h1>My exchange page</h1>,
+          element: <CurrencyExchangePage />,
         },
       ],
     },

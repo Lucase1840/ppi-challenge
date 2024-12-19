@@ -15,6 +15,7 @@ export default defineConfig({
       '@routes': resolve(__dirname, './src/routes'),
       '@components': resolve(__dirname, './src/components'),
       '@styles': resolve(__dirname, './src/styles'),
+      '@icons': resolve(__dirname, './src/assets/icons'),
     },
   },
   server: {
