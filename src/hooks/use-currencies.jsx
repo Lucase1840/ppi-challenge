@@ -1,36 +1,20 @@
-import { useEffect } from 'react'
+import { useContext } from 'react'
 
-import useFetch from '@hooks/use-fetch'
-import { toast } from 'react-toastify'
-
-import { currencySelectOptionsAdapter } from '@/lib/utils/utils'
-import { getCurrencies } from '@/services/currency-exchange/currency-exchange-services'
+import { CurrenciesContext } from '@/context/currencies-context'
 
 function useCurrencies() {
-  const { data, error } = useFetch({
-    initialValue: [],
-    fetchFunction: (signal) => getCurrencies({ signal }),
-  })
+  const context = useContext(CurrenciesContext)
 
-  useEffect(() => {
-    if (error) {
-      // TODO :  Refactor this inside a errorHandleHook.
-      toast('Ha ocurrido un error inesperado! Por favor, intente nuevamente', {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'light',
-        type: 'error',
-      })
-    }
-  }, [error])
+  if (!context) {
+    throw new Error('useCurrencies must be used within CurrenciesProvider')
+  }
+
+  const { options, defaultFromValue, defaultToValue } = context
 
   return {
-    options: currencySelectOptionsAdapter(data) ?? [],
+    options,
+    defaultFromValue,
+    defaultToValue,
   }
 }
 

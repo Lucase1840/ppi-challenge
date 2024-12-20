@@ -1,44 +1,39 @@
-import { useEffect, useState } from 'react'
+import { useCallback } from 'react'
 
-import useLoading from '@hooks/use-loading'
+import useToast from '@hooks/use-toast'
 
-function useFetch({ initialValue = null, fetchFunction, dependencies = [] }) {
-  const [data, setData] = useState(initialValue)
-  const setLoading = useLoading()
-  const [error, setError] = useState(null)
+import { getErrorMessageByStatusCode } from '@/lib/utils/utils'
 
-  useEffect(() => {
-    setLoading(true)
-    let isUnmounted = false
-    const abortController = new AbortController()
+function useFetch() {
+  const { setError } = useToast()
 
-    fetchFunction(abortController.signal)
-      .then((res) => {
-        if (!isUnmounted) {
-          res.json().then((data) => {
-            setData(data)
-          })
-        }
-      })
-      .catch((err) => {
-        if (err.name === 'AbortError') {
-          return
+  const fetchData = useCallback(
+    async (fetchFunction) => {
+      try {
+        const response = await fetchFunction()
+
+        if (response.status >= 500) {
+          throw new Error('Sorry! An unexpected error has occurred.')
         }
 
-        setError(err)
-      })
-      .finally(() => setLoading(false))
+        if (!response.ok) {
+          const message = getErrorMessageByStatusCode(response.status)
 
-    return () => {
-      isUnmounted = true
-      abortController.abort()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [...dependencies])
+          throw new Error(message)
+        }
+
+        const data = await response.json()
+
+        return data
+      } catch (error) {
+        setError(error)
+      }
+    },
+    [setError],
+  )
 
   return {
-    data,
-    error,
+    fetchData,
   }
 }
 
