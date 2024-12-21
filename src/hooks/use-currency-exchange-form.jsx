@@ -9,7 +9,7 @@ import { getExchange } from '@/services/currency-exchange/currency-exchange-serv
 import useToast from './use-toast'
 
 const initialFormValues = {
-  amount: 1,
+  amount: '1.00',
   from: null,
   to: null,
 }
@@ -44,7 +44,7 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSubmit = useCallback(debounce(submit, 1000), [])
+  const debouncedSubmit = useCallback(debounce(submit, 500), [])
 
   useEffect(() => {
     if (shouldDebounce && !Object.values(errors).length) {
@@ -62,7 +62,7 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
   useEffect(() => {
     if (defaultFromValue && defaultToValue) {
       const newValues = {
-        amount: 1,
+        amount: '1.00',
         from: defaultFromValue,
         to: defaultToValue,
       }
@@ -84,6 +84,9 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
     let errorMessage = ''
 
     if (name === 'amount' && value) {
+      // * With this regex we know if its a valid number with the format 1,000.00.
+      // * ',' characters are optionals
+      // * It does not allow '-', so negative numbers cant be input.
       const validNumberRegex = /^\d{1,3}(,\d{3})*(\.\d+)?$|^\d+(\.\d+)?$/
 
       if (!validNumberRegex.test(value)) {

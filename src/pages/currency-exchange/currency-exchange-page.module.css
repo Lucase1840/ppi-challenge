@@ -5,12 +5,22 @@
   justify-content: space-between;
 }
 
+.title-container {
+  height: 11rem;
+  display: flex;
+  align-items: center;
+  padding: 2rem 3rem 1.5rem 3rem;
+}
+
 .title {
   color: white;
   font-size: 2rem;
   text-align: center;
-  padding: 2.5rem 2rem 1.5rem 2rem;
   font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 2rem;
+  max-height: 6rem;
 }
 
 .footer {

@@ -11,11 +11,17 @@ function CurrencyExchangePage() {
   const { onSelectChange, onInputChange, errors, values, switchConversionValues, exchangeResult } =
     useCurrencyExchangeForm(defaultFromValue, defaultToValue)
 
-  const { date, fromCurrency, fromLabel, toCurrency, toLabel } = exchangeResult
+  const { date, fromCurrency, fromLabel, toCurrency, toLabel, amount } = exchangeResult
+
+  const title = Object.keys(exchangeResult).length
+    ? `${amount} ${fromLabel} to ${toLabel} - Convert ${fromCurrency} to ${toCurrency}`
+    : '1.00 US Dollar to Euro - Convert USD to EUR'
 
   return (
     <section className={styles.container}>
-      <h1 className={styles.title}>100 EUR to USD - Convert Euros to US Dollars</h1>
+      <div className={styles['title-container']}>
+        <h1 className={styles.title}>{title}</h1>
+      </div>
       <CurrencyExchangeCard
         errors={errors}
         exchangeResult={exchangeResult}
