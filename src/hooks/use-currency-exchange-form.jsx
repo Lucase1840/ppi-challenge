@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import useCurrencyExchange from '@hooks/use-currency-exchange'
 import useFetch from '@hooks/use-fetch'
 import useLoading from '@hooks/use-loading'
+import useToast from '@hooks/use-toast'
 
 import { debounce, formatCurrencyExchangeData } from '@/lib/utils/utils'
 import { getExchange } from '@/services/currency-exchange/currency-exchange-services'
-
-import useToast from './use-toast'
 
 const initialFormValues = {
   amount: '1.00',
@@ -17,11 +17,11 @@ const initialFormValues = {
 function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
   const setLoading = useLoading()
   const { fetchData } = useFetch()
+  const { setExchangeResult } = useCurrencyExchange()
 
   const [values, setValues] = useState(initialFormValues)
 
   const [errors, setErrors] = useState({})
-  const [exchangeResult, setExchangeResult] = useState({})
 
   const [shouldDebounce, setShouldDebounce] = useState(false)
 
@@ -137,7 +137,6 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
     errors,
     values,
     switchConversionValues,
-    exchangeResult,
   }
 }
 

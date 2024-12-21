@@ -1,6 +1,7 @@
 import SwitchIcon from '@icons/switch-icon.svg'
 
 import CustomSelect from '@/components/ui/select/select'
+import useCurrencyExchange from '@/hooks/use-currency-exchange'
 
 import Footer from '../footer/footer'
 
@@ -12,19 +13,18 @@ function CurrencyExchangeCard({
   errors,
   values,
   switchConversionValues,
-  exchangeResult,
   options,
 }) {
   const {
-    amount,
     date,
     fromCurrency,
-    invertedCurrencyExchangeResult,
     fromLabel,
     toCurrency,
     toLabel,
+    amount,
     currencyExchangeResult,
-  } = exchangeResult
+    invertedCurrencyExchangeResult,
+  } = useCurrencyExchange()
 
   const isDesktop = false
 
@@ -74,16 +74,15 @@ function CurrencyExchangeCard({
           />
         </div>
       </form>
-      {Object.keys(exchangeResult).length ? (
-        <div className={styles.info}>
-          <p
-            className={styles['main-info']}
-          >{`${amount?.toString()} ${fromLabel}${amount > 1 ? 's' : ''} = ${currencyExchangeResult} ${toLabel}${currencyExchangeResult > 1 ? 's' : ''}`}</p>
-          <p
-            className={styles['secondary-info']}
-          >{`${amount?.toString()} ${toCurrency} = ${invertedCurrencyExchangeResult} ${fromCurrency}`}</p>
-        </div>
-      ) : null}
+
+      <div className={styles.info}>
+        <p
+          className={styles['main-info']}
+        >{`${amount?.toString()} ${fromLabel}${amount > 1 ? 's' : ''} = ${currencyExchangeResult} ${toLabel}${currencyExchangeResult > 1 ? 's' : ''}`}</p>
+        <p
+          className={styles['secondary-info']}
+        >{`${amount?.toString()} ${toCurrency} = ${invertedCurrencyExchangeResult} ${fromCurrency}`}</p>
+      </div>
       {isDesktop && (
         <div>
           <p>INFORMACIÓN ADICIONAL EN CELESTE</p>
