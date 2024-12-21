@@ -78,7 +78,7 @@ function CurrencyExchangeCard({
         <div className={styles.info}>
           <p
             className={styles['main-info']}
-          >{`${amount?.toString()} ${fromLabel}${amount > 1 ? 's' : ''} = ${toCurrencyRate} ${toLabel}`}</p>
+          >{`${amount?.toString()} ${fromLabel}${amount > 1 ? 's' : ''} = ${toCurrencyRate} ${toLabel}${toCurrencyRate > 1 ? 's' : ''}`}</p>
           <p
             className={styles['secondary-info']}
           >{`${amount?.toString()} ${fromCurrency} = ${fromCurrencyRate} ${toCurrency}`}</p>

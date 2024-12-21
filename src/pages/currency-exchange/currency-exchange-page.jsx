@@ -1,12 +1,12 @@
 import CurrencyExchangeCard from '@/components/domain/currency-exchange/currency-exchange-card/currency-exchange-card'
 import Footer from '@/components/domain/currency-exchange/footer/footer'
-import useCurrencies from '@/hooks/use-currencies'
+import useCurrenciesOptions from '@/hooks/use-currencies-options'
 import useCurrencyExchangeForm from '@/hooks/use-currency-exchange-form'
 
 import styles from './currency-exchange-page.module.css'
 
 function CurrencyExchangePage() {
-  const { options, defaultFromValue, defaultToValue } = useCurrencies()
+  const { options, defaultFromValue, defaultToValue } = useCurrenciesOptions()
 
   const { onSelectChange, onInputChange, errors, values, switchConversionValues, exchangeResult } =
     useCurrencyExchangeForm(defaultFromValue, defaultToValue)
