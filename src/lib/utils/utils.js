@@ -62,10 +62,12 @@ export const formatCurrencyExchangeData = (exchangeValues, { rates, date }) => {
       fromLabel: exchangeValues.from.label,
       toCurrency: exchangeValues.to.value,
       fromCurrency: exchangeValues.from.value,
-      from: exchangeValues.from.value,
-      exchangeResult: exchangeCalculator(exchangeValues.amount, conversionRate),
-      fromCurrencyRate: conversionRate,
-      toCurrencyRate: invertedConversionRate,
+      currencyExchangeResult: differentCurrency
+        ? exchangeCalculator(exchangeValues.amount, conversionRate)
+        : exchangeValues.amount,
+      invertedCurrencyExchangeResult: differentCurrency
+        ? exchangeCalculator(exchangeValues.amount, invertedConversionRate)
+        : exchangeValues.amount,
     }
   } catch (error) {
     throw new Error(
