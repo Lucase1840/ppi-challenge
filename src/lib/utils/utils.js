@@ -86,3 +86,36 @@ export const getErrorMessageByStatusCode = (status) => {
       return 'An error occurred. Please try again.'
   }
 }
+
+export const validateForm = (name, value, setError) => {
+  let errorMessage = ''
+
+  if (name === 'amount' && value) {
+    // * With this regex we know if its a valid number with the format 1,000.00.
+    // * ',' characters are optionals
+    // * It does not allow '-', so negative numbers cant be input.
+    const validNumberRegex = /^\d{1,3}(,\d{3})*(\.\d+)?$|^\d+(\.\d+)?$/
+
+    if (!validNumberRegex.test(value)) {
+      errorMessage = 'Please, enter a valid number with format 1,000.00'
+    }
+
+    if (!errorMessage && !parseFloat(value, 10) > 0) {
+      errorMessage = 'Please, enter a number greater than 0'
+    }
+
+    errorMessage &&
+      setError((prevState) => ({
+        ...prevState,
+        [name]: errorMessage,
+      }))
+  } else if (!value) {
+    errorMessage = 'Please, enter a valid amount'
+    setError((prevState) => ({
+      ...prevState,
+      [name]: errorMessage,
+    }))
+  }
+
+  return errorMessage
+}

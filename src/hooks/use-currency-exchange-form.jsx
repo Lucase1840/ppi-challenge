@@ -5,7 +5,7 @@ import useFetch from '@hooks/use-fetch'
 import useLoading from '@hooks/use-loading'
 import useToast from '@hooks/use-toast'
 
-import { debounce, formatCurrencyExchangeData } from '@/lib/utils/utils'
+import { debounce, formatCurrencyExchangeData, validateForm } from '@/lib/utils/utils'
 import { getExchange } from '@/services/currency-exchange/currency-exchange-services'
 
 const initialFormValues = {
@@ -16,6 +16,7 @@ const initialFormValues = {
 
 function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
   const setLoading = useLoading()
+  const { setError: setErrorToast } = useToast()
   const { fetchData } = useFetch()
   const { setExchangeResult } = useCurrencyExchange()
 
@@ -25,9 +26,7 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
 
   const [shouldDebounce, setShouldDebounce] = useState(false)
 
-  const { setError: setErrorToast } = useToast()
-
-  const submit = async (currentValues) => {
+  const submitForm = async (currentValues) => {
     setLoading(true)
     if (!currentValues.from) return
     const data = await fetchData(() => getExchange(currentValues.from.value))
@@ -44,7 +43,7 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSubmit = useCallback(debounce(submit, 500), [])
+  const debouncedSubmit = useCallback(debounce(submitForm, 350), [])
 
   useEffect(() => {
     if (shouldDebounce && !Object.values(errors).length) {
@@ -55,7 +54,7 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
 
   useEffect(() => {
     if (!shouldDebounce && !Object.values(errors).length) {
-      submit(values)
+      submitForm(values)
     }
   }, [shouldDebounce, values, errors])
 
@@ -68,40 +67,13 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
       }
 
       setValues(newValues)
-      submit(newValues)
+      submitForm(newValues)
     }
   }, [defaultFromValue, defaultToValue])
 
-  const setError = (name, errorMessage) => {
-    setErrors((prevState) => ({
-      ...prevState,
-      [name]: errorMessage,
-    }))
-  }
-
   const onInputChange = useCallback((event) => {
     const { name, value } = event.target
-    let errorMessage = ''
-
-    if (name === 'amount' && value) {
-      // * With this regex we know if its a valid number with the format 1,000.00.
-      // * ',' characters are optionals
-      // * It does not allow '-', so negative numbers cant be input.
-      const validNumberRegex = /^\d{1,3}(,\d{3})*(\.\d+)?$|^\d+(\.\d+)?$/
-
-      if (!validNumberRegex.test(value)) {
-        errorMessage = 'Please, enter a valid number with format 1,000.00'
-      }
-
-      if (!errorMessage && !parseFloat(value, 10) > 0) {
-        errorMessage = 'Please, enter a number greater than 0'
-      }
-
-      errorMessage && setError(name, errorMessage)
-    } else if (!value) {
-      errorMessage = 'Please, enter a valid amount'
-      setError(name, errorMessage)
-    }
+    const errorMessage = validateForm(name, value, setErrors)
 
     setValues((prevState) => ({
       ...prevState,
