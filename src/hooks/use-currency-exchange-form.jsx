@@ -26,9 +26,17 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
 
   const [shouldDebounce, setShouldDebounce] = useState(false)
 
-  const submitForm = async (currentValues) => {
+  const submitForm = async (currentValues, errors) => {
     setLoading(true)
+
     if (!currentValues.from) return
+
+    if (Object.values(errors)?.length) {
+      setLoading(false)
+
+      return
+    }
+
     const data = await fetchData(() => getExchange(currentValues.from.value))
 
     try {
@@ -46,19 +54,19 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
   const debouncedSubmit = useCallback(debounce(submitForm, 350), [])
 
   useEffect(() => {
-    if (shouldDebounce && !Object.values(errors).length) {
-      debouncedSubmit(values)
+    if (shouldDebounce) {
+      debouncedSubmit(values, errors)
     }
-    // TODO: Ver si puedo mandar signal para cancelar fetch aca
   }, [shouldDebounce, values, debouncedSubmit, errors])
 
   useEffect(() => {
     if (!shouldDebounce && !Object.values(errors).length) {
-      submitForm(values)
+      submitForm(values, errors)
     }
   }, [shouldDebounce, values, errors])
 
   useEffect(() => {
+    // * We make the initial fetch with the default values
     if (defaultFromValue && defaultToValue) {
       const newValues = {
         amount: '1.00',
@@ -67,7 +75,7 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
       }
 
       setValues(newValues)
-      submitForm(newValues)
+      submitForm(newValues, errors)
     }
   }, [defaultFromValue, defaultToValue])
 
