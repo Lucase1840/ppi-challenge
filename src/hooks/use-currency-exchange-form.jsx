@@ -1,12 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import useCurrencyExchange from '@hooks/use-currency-exchange'
 import useFetch from '@hooks/use-fetch'
 import useLoading from '@hooks/use-loading'
 import useToast from '@hooks/use-toast'
 
-import { debounce, formatCurrencyExchangeData, validateForm } from '@/lib/utils/utils'
+import { formatCurrencyExchangeData, validateForm } from '@/lib/utils/utils'
 import { getExchange } from '@/services/currency-exchange/currency-exchange-services'
+
+import useCurrencyExchange from './use-currency-exchange'
+import useDebounce from './use-debounce'
 
 const initialFormValues = {
   amount: '1.00',
@@ -21,61 +23,47 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
   const { setExchangeResult } = useCurrencyExchange()
 
   const [values, setValues] = useState(initialFormValues)
+  const debouncedAmount = useDebounce(values.amount)
 
   const [errors, setErrors] = useState({})
 
-  const [shouldDebounce, setShouldDebounce] = useState(false)
+  const submitForm = useMemo(
+    () => async () => {
+      if (!values.from) return
+      if (Object.keys(errors).length) return
+      setLoading(true)
 
-  const submitForm = async (currentValues, errors) => {
-    setLoading(true)
+      const data = await fetchData(() => getExchange(values.from.value))
 
-    if (!currentValues.from) return
-
-    if (Object.values(errors)?.length) {
-      setLoading(false)
-
-      return
-    }
-
-    const data = await fetchData(() => getExchange(currentValues.from.value))
-
-    try {
-      if (data) {
-        setExchangeResult(formatCurrencyExchangeData(currentValues, data))
+      try {
+        if (data) {
+          setExchangeResult(formatCurrencyExchangeData(values, data))
+        }
+      } catch (error) {
+        setErrorToast(error)
+      } finally {
+        setLoading(false)
       }
-    } catch (error) {
-      setErrorToast(error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSubmit = useCallback(debounce(submitForm, 350), [])
+    },
+    [fetchData, setErrorToast, setExchangeResult, setLoading, values, errors],
+  )
 
   useEffect(() => {
-    if (shouldDebounce) {
-      debouncedSubmit(values, errors)
+    // * If we don't verify this condition, every time input is changed, we would fetch data because of the
+    // * submit form dep.
+    if (debouncedAmount === values.amount) {
+      submitForm()
     }
-  }, [shouldDebounce, values, debouncedSubmit, errors])
-
-  useEffect(() => {
-    if (!shouldDebounce && !Object.values(errors).length) {
-      submitForm(values, errors)
-    }
-  }, [shouldDebounce, values, errors])
+  }, [debouncedAmount, submitForm, values])
 
   useEffect(() => {
     // * We make the initial fetch with the default values
     if (defaultFromValue && defaultToValue) {
-      const newValues = {
+      setValues({
         amount: '1.00',
         from: defaultFromValue,
         to: defaultToValue,
-      }
-
-      setValues(newValues)
-      submitForm(newValues, errors)
+      })
     }
   }, [defaultFromValue, defaultToValue])
 
@@ -89,7 +77,6 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
     }))
 
     if (!errorMessage) {
-      setShouldDebounce(true)
       setErrors({})
     }
   }, [])
@@ -99,7 +86,6 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
       ...prevState,
       [name]: value,
     }))
-    setShouldDebounce(false)
   }, [])
 
   const switchConversionValues = useCallback(() => {
@@ -108,7 +94,6 @@ function useCurrencyExchangeForm(defaultFromValue, defaultToValue) {
       to: prevState.from,
       from: prevState.to,
     }))
-    setShouldDebounce(false)
   }, [])
 
   return {

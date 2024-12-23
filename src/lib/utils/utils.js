@@ -24,18 +24,6 @@ export const currencySelectOptionsAdapter = (data) => {
   }
 }
 
-export function debounce(cb, delay = 1000) {
-  let timeout
-
-  return function (...args) {
-    if (timeout) {
-      clearTimeout(timeout)
-    }
-
-    timeout = setTimeout(() => cb(...args), delay)
-  }
-}
-
 const dateFormatter = (date) => {
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
@@ -45,14 +33,21 @@ const dateFormatter = (date) => {
   }).format(date)
 }
 
+const getNumberWithoutComas = (number) => parseFloat(number.replace(/,/g, ''))
+
 const formatNumber = (number) => {
+  const numberWithoutComas = getNumberWithoutComas(number)
+
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
-  }).format(number)
+  }).format(numberWithoutComas)
 }
 
 export const exchangeCalculator = (amount, exchangeRate) => {
-  return (amount * exchangeRate).toFixed(6)
+  const amountWithoutComas = getNumberWithoutComas(amount)
+
+  // *We limit the exchange results to a max number of decimals
+  return (amountWithoutComas * exchangeRate).toFixed(6)
 }
 
 export const formatCurrencyExchangeData = (exchangeValues, { rates, date }) => {
