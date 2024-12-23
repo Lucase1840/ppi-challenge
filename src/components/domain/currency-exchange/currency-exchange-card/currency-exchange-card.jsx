@@ -27,7 +27,7 @@ function CurrencyExchangeCard({
     invertedCurrencyExchangeResult,
   } = useCurrencyExchange()
 
-  const inputSpacingFromSymbol = values.from.symbol ? values.from.symbol.length * 0.6 + 1.5 : 1.5
+  const inputSpacingFromSymbol = values.from?.symbol ? values.from.symbol.length * 0.6 + 1.5 : 1.5
 
   return (
     <section className={styles['card-container']}>
