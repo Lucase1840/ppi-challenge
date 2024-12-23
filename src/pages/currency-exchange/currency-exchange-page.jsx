@@ -22,9 +22,11 @@ function CurrencyExchangePage() {
   const isMobileDevice = deviceWidth < MIN_MOBILE_DEVICE_WIDTH
 
   return (
-    <section className={styles.container}>
+    <section aria-labelledby='page-title' className={styles.container}>
       <div className={styles['title-container']}>
-        <h1 className={styles.title}>{titleText}</h1>
+        <h2 className={styles.title} id='page-title'>
+          {titleText}
+        </h2>
       </div>
       <CurrencyExchangeCard
         errors={errors}
