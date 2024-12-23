@@ -10,7 +10,6 @@ function MainLayout({ children }) {
         <NavBar />
       </header>
       <main className={styles['main-layout']}>
-        <div className={styles['color-box']} />
         <Outlet />
         {children}
       </main>

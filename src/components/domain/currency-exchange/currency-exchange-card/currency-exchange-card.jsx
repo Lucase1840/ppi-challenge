@@ -1,21 +1,11 @@
-import SwitchIcon from '@icons/switch-icon.svg'
-
-import CustomSelect from '@/components/ui/select/select'
 import useCurrencyExchange from '@/hooks/use-currency-exchange'
 
+import CurrencyExchangeForm from '../currency-exchange-form/currency-exchange-form'
 import Footer from '../footer/footer'
 
 import styles from './currency-exchange-card.module.css'
 
-function CurrencyExchangeCard({
-  onSelectChange,
-  onInputChange,
-  errors,
-  values,
-  switchConversionValues,
-  options,
-  isMobileDevice,
-}) {
+function CurrencyExchangeCard({ isMobileDevice }) {
   const {
     date,
     fromCurrency,
@@ -27,71 +17,11 @@ function CurrencyExchangeCard({
     invertedCurrencyExchangeResult,
   } = useCurrencyExchange()
 
-  const inputSpacingFromSymbol = values.from?.symbol ? values.from.symbol.length * 0.6 + 1.5 : 1.5
-
   return (
     <section className={styles['card-container']}>
       <div className={styles['card-content']}>
-        <div>
-          <form className={styles['form-container']}>
-            <div>
-              <div className={styles['input-container']}>
-                <label htmlFor='amount' id='amount'>
-                  Amount
-                </label>
-                <div className={styles['input-container']}>
-                  <span className={styles['currency-symbol']}>{values.from?.symbol}</span>
-                  <input
-                    className={styles.input}
-                    id='amount'
-                    name='amount'
-                    onChange={onInputChange}
-                    style={{
-                      padding: `0.5rem 1rem 0.5rem ${inputSpacingFromSymbol}rem`,
-                    }}
-                    type='text'
-                    value={values.amount}
-                  />
-                </div>
-              </div>
-              {isMobileDevice && Boolean(errors.amount) ? (
-                <p className={styles.error}>{errors.amount}</p>
-              ) : null}
-            </div>
-
-            <div className={styles['select-container']}>
-              <label htmlFor='from' id='from'>
-                From
-              </label>
-              <CustomSelect
-                inputId='from'
-                name='from'
-                onChange={(values, { name }) => onSelectChange(values, name)}
-                options={options}
-                value={values.from}
-              />
-            </div>
-            <button className={styles.button} onClick={switchConversionValues} type='button'>
-              <img alt='switch-icon' src={SwitchIcon} />
-            </button>
-            <div className={styles['select-container']}>
-              <label htmlFor='to' id='to'>
-                To
-              </label>
-              <CustomSelect
-                inputId='to'
-                name='to'
-                onChange={(values, { name }) => onSelectChange(values, name)}
-                options={options}
-                value={values.to}
-              />
-            </div>
-          </form>
-          {!isMobileDevice && Boolean(errors.amount) ? (
-            <p className={styles.error}>{errors.amount}</p>
-          ) : null}
-        </div>
-        <section className={styles['main-card-content']}>
+        <CurrencyExchangeForm />
+        <div className={styles['main-card-content']}>
           <div className={styles['results-container']}>
             <p
               className={styles['primary-result']}
@@ -108,7 +38,7 @@ function CurrencyExchangeCard({
               </p>
             </div>
           ) : null}
-        </section>
+        </div>
       </div>
       {!isMobileDevice ? (
         <div className={styles.footer}>
