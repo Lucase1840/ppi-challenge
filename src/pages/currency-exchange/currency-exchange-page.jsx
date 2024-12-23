@@ -1,19 +1,12 @@
 import CurrencyExchangeCard from '@/components/domain/currency-exchange/currency-exchange-card/currency-exchange-card'
 import Footer from '@/components/domain/currency-exchange/footer/footer'
-import useCurrenciesOptions from '@/hooks/use-currencies-options'
 import useCurrencyExchange from '@/hooks/use-currency-exchange'
-import useCurrencyExchangeForm from '@/hooks/use-currency-exchange-form'
 import useDeviceWidth from '@/hooks/use-device-width'
 import { MIN_MOBILE_DEVICE_WIDTH } from '@/lib/utils/enums'
 
 import styles from './currency-exchange-page.module.css'
 
 function CurrencyExchangePage() {
-  const { options, defaultFromValue, defaultToValue } = useCurrenciesOptions()
-
-  const { onSelectChange, onInputChange, errors, values, switchConversionValues } =
-    useCurrencyExchangeForm(defaultFromValue, defaultToValue)
-
   const { fromCurrency, fromLabel, toCurrency, toLabel, amount } = useCurrencyExchange()
   const { deviceWidth } = useDeviceWidth(0)
 
@@ -28,15 +21,7 @@ function CurrencyExchangePage() {
           {titleText}
         </h2>
       </div>
-      <CurrencyExchangeCard
-        errors={errors}
-        isMobileDevice={isMobileDevice}
-        onInputChange={onInputChange}
-        onSelectChange={onSelectChange}
-        options={options}
-        switchConversionValues={switchConversionValues}
-        values={values}
-      />
+      <CurrencyExchangeCard isMobileDevice={isMobileDevice} />
       {isMobileDevice ? (
         <div className={styles.footer}>
           <Footer />
