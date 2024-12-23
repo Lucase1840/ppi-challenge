@@ -1,0 +1,1 @@
+export const MIN_MOBILE_DEVICE_WIDTH = 1024

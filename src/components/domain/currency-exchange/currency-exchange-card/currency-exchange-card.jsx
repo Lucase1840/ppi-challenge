@@ -14,6 +14,7 @@ function CurrencyExchangeCard({
   values,
   switchConversionValues,
   options,
+  isMobileDevice,
 }) {
   const {
     date,
@@ -26,66 +27,83 @@ function CurrencyExchangeCard({
     invertedCurrencyExchangeResult,
   } = useCurrencyExchange()
 
-  const isDesktop = false
-
-  const inputSpacingFromSymbol = values.from ? values.from?.symbol?.length * 0.6 + 1.5 : 1.5
+  const inputSpacingFromSymbol = values.from.symbol ? values.from.symbol.length * 0.6 + 1.5 : 1.5
 
   return (
     <section className={styles['card-container']}>
-      <form className={styles['form-container']}>
-        <div>
-          <div className={styles['input-container']}>
-            <label htmlFor='amount'>Amount</label>
+      <div className={styles['card-content']}>
+        <form className={styles['form-container']}>
+          <div>
             <div className={styles['input-container']}>
-              <span className={styles['currency-symbol']}>{values.from?.symbol}</span>
-              <input
-                className={styles.input}
-                name='amount'
-                onChange={onInputChange}
-                style={{
-                  padding: `0.5rem 1rem 0.5rem ${inputSpacingFromSymbol}rem`,
-                }}
-                type='text'
-                value={values.amount}
-              />
+              <label htmlFor='amount' id='amount'>
+                Amount
+              </label>
+              <div className={styles['input-container']}>
+                <span className={styles['currency-symbol']}>{values.from?.symbol}</span>
+                <input
+                  className={styles.input}
+                  id='amount'
+                  name='amount'
+                  onChange={onInputChange}
+                  style={{
+                    padding: `0.5rem 1rem 0.5rem ${inputSpacingFromSymbol}rem`,
+                  }}
+                  type='text'
+                  value={values.amount}
+                />
+              </div>
             </div>
+            {Boolean(errors.amount) && <p className={styles.error}>{errors.amount}</p>}
           </div>
-          {Boolean(errors.amount) && <p className={styles.error}>{errors.amount}</p>}
-        </div>
-        <div className={styles['select-container']}>
-          <label htmlFor='from'>From</label>
-          <CustomSelect
-            name='from'
-            onChange={(values, { name }) => onSelectChange(values, name)}
-            options={options}
-            value={values.from}
-          />
-        </div>
-        <button className={styles.button} onClick={switchConversionValues} type='button'>
-          <img alt='switch-icon' src={SwitchIcon} />
-        </button>
-        <div className={styles['select-container']}>
-          <label htmlFor='to'>To</label>
-          <CustomSelect
-            name='to'
-            onChange={(values, { name }) => onSelectChange(values, name)}
-            options={options}
-            value={values.to}
-          />
-        </div>
-      </form>
-
-      <div className={styles.info}>
-        <p
-          className={styles['main-info']}
-        >{`${amount?.toString()} ${fromLabel}${amount > 1 ? 's' : ''} = ${currencyExchangeResult} ${toLabel}${currencyExchangeResult > 1 ? 's' : ''}`}</p>
-        <p
-          className={styles['secondary-info']}
-        >{`${amount?.toString()} ${toCurrency} = ${invertedCurrencyExchangeResult} ${fromCurrency}`}</p>
+          <div className={styles['select-container']}>
+            <label htmlFor='from' id='from'>
+              From
+            </label>
+            <CustomSelect
+              inputId='from'
+              name='from'
+              onChange={(values, { name }) => onSelectChange(values, name)}
+              options={options}
+              value={values.from}
+            />
+          </div>
+          <button className={styles.button} onClick={switchConversionValues} type='button'>
+            <img alt='switch-icon' src={SwitchIcon} />
+          </button>
+          <div className={styles['select-container']}>
+            <label htmlFor='to' id='to'>
+              To
+            </label>
+            <CustomSelect
+              inputId='to'
+              name='to'
+              onChange={(values, { name }) => onSelectChange(values, name)}
+              options={options}
+              value={values.to}
+            />
+          </div>
+        </form>
+        <section className={styles['main-card-content']}>
+          <div className={styles['results-container']}>
+            <p
+              className={styles['primary-result']}
+            >{`${amount?.toString()} ${fromLabel}${amount > 1 ? 's' : ''} = ${currencyExchangeResult} ${toLabel}${currencyExchangeResult > 1 ? 's' : ''}`}</p>
+            <p
+              className={styles['secondary-result']}
+            >{`${amount?.toString()} ${toCurrency} = ${invertedCurrencyExchangeResult} ${fromCurrency}`}</p>
+          </div>
+          {!isMobileDevice ? (
+            <div className={styles['information-container']}>
+              <p className={styles['information']}>
+                We use the mid-market rate for our Converter. This is for informational purposes
+                only. You won’t receive this rate when sending money.
+              </p>
+            </div>
+          ) : null}
+        </section>
       </div>
-      {isDesktop && (
-        <div>
-          <p>INFORMACIÓN ADICIONAL EN CELESTE</p>
+      {!isMobileDevice ? (
+        <div className={styles.footer}>
           <Footer
             date={date}
             fromCurrency={fromCurrency}
@@ -94,7 +112,7 @@ function CurrencyExchangeCard({
             toLabel={toLabel}
           />
         </div>
-      )}
+      ) : null}
     </section>
   )
 }

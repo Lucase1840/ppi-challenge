@@ -14,3 +14,9 @@
   font-size: 1.5rem;
   font-weight: 600;
 }
+
+@media screen and (width >= 1024px) {
+  .nav-bar {
+    padding: 0rem 1rem 0rem 3.375rem;
+  }
+}

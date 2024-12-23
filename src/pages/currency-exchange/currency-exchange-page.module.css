@@ -1,15 +1,20 @@
+@import '@styles/variables.css';
+
 .container {
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  margin: 0px 2rem;
 }
 
 .title-container {
   height: 11rem;
   display: flex;
   align-items: center;
-  padding: 2rem 3rem 1.5rem 3rem;
+  justify-content: center;
+  width: 100%;
+  padding: 1.875rem 0rem 2.1875rem 0rem;
 }
 
 .title {
@@ -21,11 +26,19 @@
   overflow: hidden;
   line-height: 2rem;
   max-height: 6rem;
+  padding: 0rem 1.0625rem;
 }
 
 .footer {
-  padding: 0.5rem 2rem 0 2rem;
+  padding-top: 0.5rem;
   font-size: 0.8rem;
   font-weight: 300;
   line-height: 1.5rem;
+}
+
+@media screen and (width >= 1024px) {
+  .container {
+    margin: 0rem 4.8125rem;
+    justify-content: flex-start;
+  }
 }
