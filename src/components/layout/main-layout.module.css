@@ -1,0 +1,13 @@
+@import '@styles/variables.css';
+
+.main-layout {
+  height: calc(100dvh - var(--nav-bar-height));
+}
+
+.color-box {
+  height: 295px;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  background-color: #1a8dff;
+}
