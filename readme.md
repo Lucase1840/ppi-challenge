@@ -28,7 +28,9 @@ To set up the project, follow these steps:
 The project uses environment variables configured in the .env file.
 Add the following variable in your .env file:
 
-1. VITE_BASE_API_URL=https://api.vatcomply.com\
+1. VITE_BASE_API_URL=https://api.vatcomply.com
+
+Note: We share this publicly because its public API with no security.
 
 ## Initialize the project in development mode:
 
