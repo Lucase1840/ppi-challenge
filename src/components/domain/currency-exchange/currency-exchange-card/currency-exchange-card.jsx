@@ -36,9 +36,7 @@ function CurrencyExchangeCard({
           <form className={styles['form-container']}>
             <div>
               <div className={styles['input-container']}>
-                <label htmlFor='amount' id='amount'>
-                  Amount
-                </label>
+                <label htmlFor='amount'>Amount</label>
                 <div className={styles['input-container']}>
                   <span className={styles['currency-symbol']}>{values.from?.symbol}</span>
                   <input
@@ -60,9 +58,7 @@ function CurrencyExchangeCard({
             </div>
 
             <div className={styles['select-container']}>
-              <label htmlFor='from' id='from'>
-                From
-              </label>
+              <label htmlFor='from'>From</label>
               <CustomSelect
                 inputId='from'
                 name='from'
@@ -71,13 +67,16 @@ function CurrencyExchangeCard({
                 value={values.from}
               />
             </div>
-            <button className={styles.button} onClick={switchConversionValues} type='button'>
+            <button
+              aria-label='Invert selected currency'
+              className={styles.button}
+              onClick={switchConversionValues}
+              type='button'
+            >
               <img alt='switch-icon' src={SwitchIcon} />
             </button>
             <div className={styles['select-container']}>
-              <label htmlFor='to' id='to'>
-                To
-              </label>
+              <label htmlFor='to'>To</label>
               <CustomSelect
                 inputId='to'
                 name='to'
@@ -91,7 +90,7 @@ function CurrencyExchangeCard({
             <p className={styles.error}>{errors.amount}</p>
           ) : null}
         </div>
-        <section className={styles['main-card-content']}>
+        <div className={styles['main-card-content']}>
           <div className={styles['results-container']}>
             <p
               className={styles['primary-result']}
@@ -108,7 +107,7 @@ function CurrencyExchangeCard({
               </p>
             </div>
           ) : null}
-        </section>
+        </div>
       </div>
       {!isMobileDevice ? (
         <div className={styles.footer}>
