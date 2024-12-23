@@ -1,0 +1,82 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.button {
+  all: unset;
+  width: 2.625rem;
+  height: 2.625rem;
+  cursor: pointer;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  label {
+    font-weight: 600;
+  }
+  position: relative;
+}
+
+.input {
+  height: 2.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid #b3b3b3;
+  &:focus {
+    outline: none;
+    border: 1px solid #1a8dff;
+    box-shadow: 0 0 0 3px rgba(26, 143, 255, 0.45);
+  }
+}
+
+.currency-symbol {
+  font-size: 1rem;
+  font-weight: 600;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  label {
+    font-weight: 600;
+  }
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  text-wrap: pretty;
+  padding-top: 0.5rem;
+}
+
+@media screen and (width >= 1024px) {
+  .form-container {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3.375rem;
+  }
+
+  .button {
+    align-self: flex-end;
+    flex-shrink: 0;
+    width: 42px;
+  }
+
+  .input-container {
+    width: 100%;
+  }
+
+  .select-container {
+    width: 100%;
+  }
+}
