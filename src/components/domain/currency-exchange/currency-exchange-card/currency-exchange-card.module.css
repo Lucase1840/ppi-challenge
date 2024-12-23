@@ -1,0 +1,160 @@
+.card-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem 1.5rem 0.8125rem 1.5rem;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  height: auto;
+  width: 100%;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.button {
+  all: unset;
+  width: 2.625rem;
+  height: 2.625rem;
+  cursor: pointer;
+}
+
+.information-container {
+  align-self: flex-end;
+  box-shadow: 0 2px 4px 0 #0000000d;
+}
+
+.information {
+  width: auto;
+  font-size: 0.875rem;
+  line-height: 2.25rem;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+
+  background-color: #e8f3ff;
+}
+
+.primary-result {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 2.25rem;
+  overflow-wrap: break-word;
+}
+
+.secondary-result {
+  color: #757575;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 2.25rem;
+  overflow-wrap: break-word;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  label {
+    font-weight: 600;
+  }
+  position: relative;
+}
+
+.input {
+  height: 2.5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid #b3b3b3;
+  &:focus {
+    outline: none;
+    border: 1px solid #1a8dff;
+    box-shadow: 0 0 0 3px rgba(26, 143, 255, 0.45);
+  }
+}
+
+.currency-symbol {
+  font-size: 1rem;
+  font-weight: 600;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  label {
+    font-weight: 600;
+  }
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  text-wrap: pretty;
+  padding-top: 0.5rem;
+}
+
+@media screen and (width >= 1024px) {
+  .form-container {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 3.375rem;
+  }
+  .button {
+    align-self: flex-end;
+    flex-shrink: 0;
+    width: 42px;
+  }
+  .input-container {
+    width: 100%;
+  }
+  .card-container {
+    padding: 2.0625rem 2.625rem 2.0625rem 2.625rem;
+    height: auto;
+  }
+  .card-content {
+    gap: 4.375rem;
+  }
+  .select-container {
+    width: 100%;
+  }
+  .main-exchange-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2.1875rem;
+  }
+  .footer {
+    text-align: right;
+    padding-top: 0.75rem;
+  }
+  .main-card-content {
+    display: grid;
+    grid-template-columns: auto 500px;
+    gap: 2.625rem;
+  }
+  .results-container {
+    height: 12.5rem;
+    overflow-y: auto;
+  }
+  .primary-result {
+    font-size: 2rem;
+    line-height: 2.25rem;
+    font-weight: 600;
+  }
+  .secondary-result {
+    font-size: 1rem;
+    line-height: 2.25rem;
+  }
+}
