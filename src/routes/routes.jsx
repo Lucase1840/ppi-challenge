@@ -2,13 +2,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import MainLayout from '@/components/layout/main-layout'
 import CurrencyExchangePage from '@/pages/currency-exchange/currency-exchange-page'
+import Error404 from '@/pages/error/Error-fallback'
 
 function Routes() {
   const router = createBrowserRouter([
     {
       path: '/',
       element: <MainLayout />,
-      errorElement: <p>error</p>,
+      errorElement: <Error404 />,
       children: [
         {
           path: '',

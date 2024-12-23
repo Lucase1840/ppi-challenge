@@ -15,7 +15,7 @@ function CurrencyExchangePage() {
     useCurrencyExchangeForm(defaultFromValue, defaultToValue)
 
   const { fromCurrency, fromLabel, toCurrency, toLabel, amount } = useCurrencyExchange()
-  const { deviceWidth } = useDeviceWidth()
+  const { deviceWidth } = useDeviceWidth(0)
 
   const titleText = `${amount} ${fromLabel} to ${toLabel} - Convert ${fromCurrency} to ${toCurrency}`
 

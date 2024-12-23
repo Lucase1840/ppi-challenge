@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react'
 
-function useDeviceWidth() {
+function useDeviceWidth(delay) {
   const [deviceWidth, setDeviceWidth] = useState()
 
   useEffect(() => {
     let timeout
 
-    const getDeviceWidth = (delay) => {
+    const getDeviceWidth = (waitFor) => {
       if (timeout) {
         clearTimeout(timeout)
       }
 
       timeout = setTimeout(() => {
         setDeviceWidth(window.innerWidth)
-      }, delay)
+      }, waitFor)
     }
 
-    window.addEventListener('resize', () => getDeviceWidth(100))
+    window.addEventListener('resize', () => getDeviceWidth(delay))
 
     getDeviceWidth(0)
 
@@ -24,7 +24,7 @@ function useDeviceWidth() {
       window.removeEventListener('resize', getDeviceWidth)
       clearTimeout(timeout)
     }
-  }, [])
+  }, [delay])
 
   return {
     deviceWidth,

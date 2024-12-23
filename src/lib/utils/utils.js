@@ -36,6 +36,20 @@ export function debounce(cb, delay = 1000) {
   }
 }
 
+const dateFormatter = (date) => {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    day: 'numeric',
+    month: 'short',
+  }).format(date)
+}
+
+const formatNumber = (number) => {
+  return new Intl.NumberFormat('en-IN', {
+    minimumFractionDigits: 2,
+  }).format(number)
+}
+
 export const exchangeCalculator = (amount, exchangeRate) => {
   return (amount * exchangeRate).toFixed(6)
 }
@@ -56,18 +70,18 @@ export const formatCurrencyExchangeData = (exchangeValues, { rates, date }) => {
       : exchangeValues.amount
 
     return {
-      date,
-      amount: exchangeValues.amount,
+      date: dateFormatter(new Date(date)),
+      amount: formatNumber(exchangeValues.amount),
       toLabel: exchangeValues.to.label,
       fromLabel: exchangeValues.from.label,
       toCurrency: exchangeValues.to.value,
       fromCurrency: exchangeValues.from.value,
       currencyExchangeResult: differentCurrency
-        ? exchangeCalculator(exchangeValues.amount, conversionRate)
-        : exchangeValues.amount,
+        ? formatNumber(exchangeCalculator(exchangeValues.amount, conversionRate))
+        : formatNumber(exchangeValues.amount),
       invertedCurrencyExchangeResult: differentCurrency
-        ? exchangeCalculator(exchangeValues.amount, invertedConversionRate)
-        : exchangeValues.amount,
+        ? formatNumber(exchangeCalculator(exchangeValues.amount, invertedConversionRate))
+        : formatNumber(exchangeValues.amount),
     }
   } catch (error) {
     throw new Error(
