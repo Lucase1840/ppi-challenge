@@ -22,7 +22,7 @@ function CurrencyExchangeForm() {
   return (
     <div>
       <form className={styles['form-container']}>
-        <div>
+        <div className={styles['input-and-error-container']}>
           <div className={styles['input-container']}>
             <label htmlFor='amount'>Amount</label>
             <div className={styles['input-container']}>
